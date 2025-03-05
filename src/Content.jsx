@@ -3,10 +3,10 @@ import ItemsComponent from "./ItemsComponent";
 
 function Content() {
   const elementos = [
-    { monto: 20000, tipo: "ingreso" },
-    { monto: 5000, tipo: "egreso" },
-    { monto: 2000, tipo: "egreso" },
-    { monto: 2000, tipo: "ingreso" },
+    { id: 1, monto: 20000, tipo: "ingreso" },
+    { id: 2, monto: 5000, tipo: "egreso" },
+    { id: 3, monto: 2000, tipo: "egreso" },
+    { id: 4, monto: 2000, tipo: "ingreso" },
   ];
   const obj1 = { monto: 20000, tipo: "ingreso" };
   // const monto = obj1.monto

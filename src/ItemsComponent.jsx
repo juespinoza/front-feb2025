@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 function ItemsComponent({ items }) {
   console.log(items);
-  const [list, setList] = useState(items);
+  // const [list, setList] = useState(items);
   // list.push({ monto: 1000, tipo: "ingreso" });
   // console.log(list);
   const esIngreso = (tipo) => tipo === "ingreso";
@@ -11,18 +11,21 @@ function ItemsComponent({ items }) {
     <div>
       <h3>
         Saldo:{" "}
-        {list.reduce(
+        {items.reduce(
           (saldo, item) =>
             item.tipo === "ingreso" ? saldo + item.monto : saldo - item.monto,
           0
         )}
       </h3>
       <ul>
-        {list
+        {items
           // .filter((item) => item.tipo !== "ingreso" && item.monto > 2000)
           .map((item) => {
             return (
-              <li className={`${esIngreso(item.tipo) ? "ingreso" : "egreso"}`}>
+              <li
+                key={item.id}
+                className={`${esIngreso(item.tipo) ? "ingreso" : "egreso"}`}
+              >
                 {`${esIngreso(item.tipo) ? "+" : "-"}` + item.monto}
               </li>
             );
@@ -36,6 +39,29 @@ function ItemsComponent({ items }) {
         <li className={`${esIngreso(items[2].tipo) ? "ingreso" : "egreso"}`}>
           {`${esIngreso(items[2].tipo) ? "+" : "-"}` + items[2].monto}
         </li> */}
+        <div>
+          <form>
+            <input type="number" id="monto" />
+            <select id="tipo">
+              <option value="ingreso">Ingreso</option>
+              <option value="egreso">Egreso</option>
+            </select>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                const elemento = {
+                  id: Date.now(),
+                  monto: e.target.form.monto.value,
+                  tipo: e.target.form.tipo.value,
+                };
+                items.push(elemento);
+                console.log("Agregando...", elemento);
+              }}
+            >
+              Agregar
+            </button>
+          </form>
+        </div>
       </ul>
     </div>
   );
