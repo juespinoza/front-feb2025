@@ -2,23 +2,29 @@ import React, { useState } from "react";
 
 function ItemsComponent({ items }) {
   console.log(items);
-  // const [list, setList] = useState(items);
+  const [list, setList] = useState(items);
   // list.push({ monto: 1000, tipo: "ingreso" });
   // console.log(list);
   const esIngreso = (tipo) => tipo === "ingreso";
+
+  const removeItemById = (id) => {
+    console.log("Borrando", id);
+    const newList = list.filter((elemento) => elemento.id !== id);
+    setList(newList);
+  };
 
   return (
     <div>
       <h3>
         Saldo:{" "}
-        {items.reduce(
+        {list.reduce(
           (saldo, item) =>
             item.tipo === "ingreso" ? saldo + item.monto : saldo - item.monto,
           0
         )}
       </h3>
       <ul>
-        {items
+        {list
           // .filter((item) => item.tipo !== "ingreso" && item.monto > 2000)
           .map((item) => {
             return (
@@ -27,6 +33,7 @@ function ItemsComponent({ items }) {
                 className={`${esIngreso(item.tipo) ? "ingreso" : "egreso"}`}
               >
                 {`${esIngreso(item.tipo) ? "+" : "-"}` + item.monto}
+                <button onClick={() => removeItemById(item.id)}>Borrar</button>
               </li>
             );
           })}
@@ -51,10 +58,11 @@ function ItemsComponent({ items }) {
                 e.preventDefault();
                 const elemento = {
                   id: Date.now(),
-                  monto: e.target.form.monto.value,
+                  monto: parseInt(e.target.form.monto.value),
                   tipo: e.target.form.tipo.value,
                 };
-                items.push(elemento);
+                // list.push(elemento); // ni items.push(elemento)
+                setList([...list, elemento]);
                 console.log("Agregando...", elemento);
               }}
             >
