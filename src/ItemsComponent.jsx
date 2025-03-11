@@ -3,7 +3,11 @@ import React, { useState } from "react";
 function ItemsComponent({ items }) {
   // console.log(items);
   const [list, setList] = useState(items);
-  const [editingItem, setEditingItem] = useState({});
+  const [editingItem, setEditingItem] = useState({
+    id: "",
+    monto: "",
+    tipo: "",
+  });
   // list.push({ monto: 1000, tipo: "ingreso" });
   // console.log(list);
   const esIngreso = (tipo) => tipo === "ingreso";
@@ -21,14 +25,17 @@ function ItemsComponent({ items }) {
 
   const handleSaveItem = (e) => {
     e.preventDefault();
-    console.log("monto: ", e.target.monto.value);
+    console.log("Guardando...", editingItem);
+    // console.log("monto: ", editingItem.monto);
+    // console.log("tipo: ", editingItem.tipo);
     const updatedList = list.map((item) =>
-      item.id === e.target.id.value
-        ? { ...item, monto: e.target.monto.value, tipo: e.target.tipo.value }
+      item.id === editingItem.id
+        ? { ...item, monto: editingItem.monto, tipo: editingItem.tipo }
         : item
     );
     setList(updatedList);
-    setEditingItem({});
+    // setEditingItem({});
+    setEditingItem({ id: "", monto: "", tipo: "" });
   };
 
   return (
@@ -69,9 +76,22 @@ function ItemsComponent({ items }) {
         </li> */}
       </ul>
       <form id="editingItem" onSubmit={handleSaveItem}>
-        <input type="hidden" id="id" value={editingItem.id} />
-        <input type="number" id="monto" value={editingItem.monto} />
-        <select id="tipo" value={editingItem.tipo}>
+        {/* <input type="hidden" id="id" value={editingItem.id} /> */}
+        <input
+          type="number"
+          id="monto"
+          value={editingItem.monto}
+          onChange={(e) =>
+            setEditingItem({ ...editingItem, monto: e.target.value })
+          }
+        />
+        <select
+          id="tipo"
+          value={editingItem.tipo}
+          onChange={(e) =>
+            setEditingItem({ ...editingItem, tipo: e.target.value })
+          }
+        >
           <option value="ingreso">Ingreso</option>
           <option value="egreso">Egreso</option>
         </select>
