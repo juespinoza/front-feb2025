@@ -24,7 +24,7 @@ function ItemsComponent({ items }) {
   };
 
   const handleSaveItem = (e) => {
-    e.preventDefault();
+    e.preventDefault(); //desactivamos el comportamiento por defecto del navegador
     console.log("Guardando...", editingItem);
     // console.log("monto: ", editingItem.monto);
     // console.log("tipo: ", editingItem.tipo);
@@ -55,25 +55,32 @@ function ItemsComponent({ items }) {
             return (
               <li
                 key={item.id}
-                className={`${esIngreso(item.tipo) ? "ingreso" : "egreso"}`}
+                className="flex justify-between items-center my-2 p-2 bg-gray-200 rounded-md"
               >
-                {`${esIngreso(item.tipo) ? "+" : "-"}` + item.monto}
-                <button onClick={() => handleSetEditingItem(item)}>
-                  Editar
-                </button>
-                <button onClick={() => removeItemById(item.id)}>Borrar</button>
+                <span
+                  className={`font-bold ${
+                    esIngreso(item.tipo) ? "text-green-600" : "text-red-600"
+                  }`}
+                >
+                  {`${esIngreso(item.tipo) ? "+" : "-"}` + item.monto}
+                </span>
+                <div className="text-sm">
+                  <button
+                    className="mx-1 text-white bg-blue-500"
+                    onClick={() => handleSetEditingItem(item)}
+                  >
+                    Editar
+                  </button>
+                  <button
+                    className="text-white bg-red-500"
+                    onClick={() => removeItemById(item.id)}
+                  >
+                    Borrar
+                  </button>
+                </div>
               </li>
             );
           })}
-        {/* <li className={`${esIngreso(items[0].tipo) ? "ingreso" : "egreso"}`}>
-          {`${esIngreso(items[0].tipo) ? "+" : "-"}` + items[0].monto}
-        </li>
-        <li className={`${esIngreso(items[1].tipo) ? "ingreso" : "egreso"}`}>
-          {`${esIngreso(items[1].tipo) ? "+" : "-"}` + items[1].monto}
-        </li>
-        <li className={`${esIngreso(items[2].tipo) ? "ingreso" : "egreso"}`}>
-          {`${esIngreso(items[2].tipo) ? "+" : "-"}` + items[2].monto}
-        </li> */}
       </ul>
       <form id="editingItem" onSubmit={handleSaveItem}>
         {/* <input type="hidden" id="id" value={editingItem.id} /> */}
