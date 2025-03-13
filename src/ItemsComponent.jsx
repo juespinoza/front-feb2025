@@ -40,14 +40,21 @@ function ItemsComponent({ items }) {
 
   return (
     <div>
-      <h3>
-        Saldo:{" "}
-        {list.reduce(
-          (saldo, item) =>
-            item.tipo === "ingreso" ? saldo + item.monto : saldo - item.monto,
-          0
-        )}
-      </h3>
+      <div className="flex justify-between items-center">
+        <h2>Lista de items</h2>
+        <div className="flex flex-col bg-sky-100 rounded-md p-4 text-black">
+          <h3 className="text-3xl font-bold">
+            {list.reduce(
+              (saldo, item) =>
+                item.tipo === "ingreso"
+                  ? saldo + item.monto
+                  : saldo - item.monto,
+              0
+            )}
+          </h3>
+          <span>Saldo</span>
+        </div>
+      </div>
       <ul>
         {list
           // .filter((item) => item.tipo !== "ingreso" && item.monto > 2000)
@@ -84,14 +91,45 @@ function ItemsComponent({ items }) {
       </ul>
       <form id="editingItem" onSubmit={handleSaveItem}>
         {/* <input type="hidden" id="id" value={editingItem.id} /> */}
-        <input
-          type="number"
-          id="monto"
-          value={editingItem.monto}
-          onChange={(e) =>
-            setEditingItem({ ...editingItem, monto: e.target.value })
-          }
-        />
+        <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+          <div className="sm:col-span-3">
+            <label htmlFor="first-name" className="block text-sm/6 font-medium">
+              Monto
+            </label>
+            <div className="mt-2">
+              <input
+                id="monto"
+                name="monto"
+                type="number"
+                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                value={editingItem.monto}
+                onChange={(e) =>
+                  setEditingItem({ ...editingItem, monto: e.target.value })
+                }
+              />
+            </div>
+          </div>
+          <div className="sm:col-span-3">
+            <label htmlFor="country" className="block text-sm/6 font-medium">
+              Tipo
+            </label>
+            <div className="mt-2 grid grid-cols-1">
+              <select
+                id="tipo"
+                name="tipo"
+                className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+              >
+                <option value="ingreso">Ingreso</option>
+                <option value="egreso">Egreso</option>
+              </select>
+              {/* <ChevronDownIcon
+                aria-hidden="true"
+                className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
+              /> */}
+            </div>
+          </div>
+        </div>
+        <input type="number" id="monto" />
         <select
           id="tipo"
           value={editingItem.tipo}

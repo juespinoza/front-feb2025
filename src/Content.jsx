@@ -18,7 +18,6 @@ function Content() {
 
   return (
     <div className="content">
-      <h3>Items: </h3>
       <ItemsComponent items={elementos} />
     </div>
   );
