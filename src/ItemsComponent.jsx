@@ -1,9 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FormComponent from "./FormComponent";
 
 function ItemsComponent({ items }) {
   const [list, setList] = useState(items);
   const [editingItem, setEditingItem] = useState(null);
+
+  useEffect(() => {
+    console.log("Creando una promesa");
+    const promise = new Promise((resolve, reject) => {
+      const exito = true;
+      setTimeout(() => {
+        if (exito) {
+          resolve("Promesa resuelta");
+        } else {
+          reject("Promesa rechazada");
+        }
+      }, 3000);
+    });
+    promise
+      .then((result) => console.log(result))
+      .catch((error) => console.error(error));
+  }, []);
 
   const handleNew = (item) => {
     setList([...list, { ...item, id: Date.now() }]);
