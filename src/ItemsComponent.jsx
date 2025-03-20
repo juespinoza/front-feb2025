@@ -1,25 +1,39 @@
 import React, { useState, useEffect } from "react";
 import FormComponent from "./FormComponent";
+import { getTransactionsHook } from "./hooks/transactions";
 
 function ItemsComponent({ items }) {
+  const { transactions, loading, error } = getTransactionsHook();
+  
+  console.log("transactions", transactions);
+  console.log("loading", loading);
+  console.log("error", error);
   const [list, setList] = useState(items);
   const [editingItem, setEditingItem] = useState(null);
 
   useEffect(() => {
-    console.log("Creando una promesa");
-    const promise = new Promise((resolve, reject) => {
-      const exito = true;
-      setTimeout(() => {
-        if (exito) {
-          resolve("Promesa resuelta");
-        } else {
-          reject("Promesa rechazada");
-        }
-      }, 3000);
-    });
-    promise
-      .then((result) => console.log(result))
-      .catch((error) => console.error(error));
+    // console.log("Creando una promesa");
+    // const promise = new Promise((resolve, reject) => {
+    //   const exito = true;
+    //   setTimeout(() => {
+    //     if (exito) {
+    //       resolve("Promesa resuelta");
+    //     } else {
+    //       reject("Promesa rechazada");
+    //     }
+    //   }, 3000);
+    // });
+    // promise
+    //   .then((result) => console.log(result))
+    //   .catch((error) => console.error(error));
+    // try {
+    //   const { transactions, loading, error } = getTransactionsHook();
+    //   console.log("transactions", transactions);
+    //   console.log("loading", loading);
+    //   console.log("error", error);
+    // } catch (error) {
+    //   console.error(error);
+    // }
   }, []);
 
   const handleNew = (item) => {
