@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { agregarTransaccion } from "./features/transacciones/transaccionesSlice";
 
 function FormComponent({ item, setItem, hidden, submitFunc, cancelFunc }) {
   const [editingItem, setEditingItem] = useState(item);
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -10,7 +13,9 @@ function FormComponent({ item, setItem, hidden, submitFunc, cancelFunc }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    submitFunc(editingItem);
+    // submitFunc(editingItem);
+    dispatch(agregarTransaccion(editingItem));
+    setEditingItem({ id: "", monto: 0, tipo: "ingreso" });
   };
 
   return (

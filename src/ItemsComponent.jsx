@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import FormComponent from "./FormComponent";
 import { getTransactionsHook } from "./hooks/transactions";
+import { useSelector } from "react-redux";
 
 function ItemsComponent({ items }) {
+  const transacciones = useSelector((state) => state.transacciones);
   const { transactions, loading, error } = getTransactionsHook();
-  
+
   console.log("transactions", transactions);
   console.log("loading", loading);
   console.log("error", error);
@@ -69,7 +71,7 @@ function ItemsComponent({ items }) {
         </div>
       </div>
       <ul className="mt-4">
-        {list.map((item) => (
+        {transacciones.map((item) => (
           <li key={item.id} className="my-2 p-2 bg-gray-600 rounded-md">
             <div className="flex justify-between items-center">
               <span
