@@ -15,9 +15,15 @@ function App({ name }) {
     <>
       <BrowserRouter>
         <nav>
-          <Link to="/">Inicio</Link>
-          <Link to="/transacciones">Ingresos/Egresos</Link>
-          <Link to="/estadisticas">Estadísticas de aplicación</Link>
+          <Link className="mx-2" to="/">
+            Inicio
+          </Link>
+          <Link className="mx-2" to="/transacciones">
+            Ingresos/Egresos
+          </Link>
+          <Link className="mx-2" to="/estadisticas">
+            Estadísticas de aplicación
+          </Link>
         </nav>
         <Routes>
           <Route path="/" element={<Inicio />} />
