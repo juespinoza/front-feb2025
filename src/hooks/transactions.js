@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const API_URL = "https://jsonplaceholder.typicode.com/posts";
+const API_URL = "https://jsonplaceholder.typicode.com";
 export function getTransactionsHook() {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -9,7 +9,8 @@ export function getTransactionsHook() {
   useEffect(() => {
     const getTransactions = async () => {
       try {
-        const postsResponse = await fetch(API_URL);
+        const postsResponse = await fetch(API_URL + "/posts");
+        // const imagesResponse = await fetch(API_URL + "/photos");
         if (!postsResponse.ok) throw new Error("Error del servidor");
 
         console.log("Respuesta del servidor", postsResponse);
