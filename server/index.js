@@ -39,10 +39,51 @@ app.post("/estudiante", (req, res) => {
 // ------------------------
 
 // ------------------------ ENDPOINTS USUARIOS
+// {
+//   id: Number,
+//   nombre: String,
+//   email: String
+// }
 let usuarios = [];
 // GET /usuarios
+// Respuesta: todos los usuarios. res.json({mensaje: "", data: []})
+app.get("/usuarios", (req, res) => {
+  // verificacion de seguridad
+  // consulta a la base de datos
+  res.json({ mensaje: "Datos recuperados exitosamente", data: usuarios });
+});
+
 // GET /usuarios/:id
+// Respuesta: consultar un usuario por su ID. res.json({mensaje:"", data: {}})
+app.get("/usuarios/:id", (req, res) => {
+  // verificacion de seguridad
+  const { id } = req.params;
+  // consulta a la base de datos
+  const usuario = usuarios.find((u) => u.id === Number(id));
+  // filtrado de datos a mostrar
+  if (!usuario) {
+    return res
+      .status(404)
+      .json({ mensaje: "Usuario no encontrado", data: null });
+  }
+  res.json({ mensaje: "Usuario encontrado", data: usuario });
+});
+
 // POST /usuarios
+app.post("/usuarios", (req, res) => {
+  // verificación de seguridad
+  const { nombre, email } = req.body;
+  const usuario = {
+    id: usuarios.length + 1, // esto es simulación
+    nombre,
+    email,
+  };
+  // verificar que los datos no esten duplicados
+  // guardamos la data en la BD
+  usuarios.push(usuario);
+  // un status(404) si hay un error
+  res.status(201).json({ mensaje: "Usuario creado", data: usuario });
+});
 
 // PUT /usuarios/:id
 app.put("/usuarios/:id", (req, res) => {
@@ -54,15 +95,35 @@ app.put("/usuarios/:id", (req, res) => {
       .status(404)
       .json({ mensaje: "Usuario no encontrado.", data: null });
   }
+
+  // usuarios.save()
   usuarios.map((u) => {
     if (u.id === Number(id)) {
       u.nombre = nombre;
       u.email = email;
     }
   });
-  res
-    .status(200)
-    .json({ mensaje: "Usuarios actualizado", data: { id, nombre, email } });
+  res.status(200).json({
+    mensaje: "Usuarios actualizado",
+    data: usuarios.find((u) => u.id),
+  });
+});
+
+// PATCH /usuarios/:id
+app.patch("", (req, res) => {});
+
+// DELETE /usuarios/:id
+app.delete("/usuarios/:id", (req, res) => {
+  // verificacion de seguridad
+  const { id } = req.params;
+  // buscar el usuario en la base de datos
+  const usuario = usuarios.findIndex((u) => u.id === Number(id));
+  if (!usuario) {
+    return res.status(404).json({ mensaje: "Usuario no encontrado" });
+  }
+  // borrar en la base de datos (soft delete: borrado logico con columna)
+  usuarios.splice(usuario, 1);
+  res.json({ mensaje: "Usuario borrado correctamente." });
 });
 
 app.use((req, res) => {
