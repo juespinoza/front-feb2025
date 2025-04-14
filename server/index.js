@@ -11,6 +11,7 @@ app.use(express.json());
 
 // 2.2- Activamos el middleware para activar la politica CORS
 const cors = require("cors");
+const verificarToken = require("./middleware/auth");
 app.use(cors());
 
 // ------------------------
@@ -55,7 +56,7 @@ app.get("/usuarios", (req, res) => {
 
 // GET /usuarios/:id
 // Respuesta: consultar un usuario por su ID. res.json({mensaje:"", data: {}})
-app.get("/usuarios/:id", (req, res) => {
+app.get("/usuarios/:id", verificarToken, (req, res) => {
   // verificacion de seguridad
   const { id } = req.params;
   // consulta a la base de datos
