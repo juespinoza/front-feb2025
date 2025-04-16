@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Inicio from "./pages/Inicio";
 import Transacciones from "./pages/Transacciones";
 import Estadisticas from "./pages/Estadisticas";
+import Registro from "./pages/Registro";
+import Login from "./pages/Login";
 
 function App({ name }) {
   const gato = "Lukus";
@@ -24,11 +26,16 @@ function App({ name }) {
           <Link className="mx-2" to="/estadisticas">
             Estadísticas de aplicación
           </Link>
+          <Link className="mx-2" to="/registro">
+            Registro de usuario
+          </Link>
         </nav>
         <Routes>
           <Route path="/" element={<Inicio />} />
           <Route path="/transacciones" element={<Transacciones />} />
           <Route path="/estadisticas" element={<Estadisticas />} />
+          <Route path="/registro" element={<Registro />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
     </>

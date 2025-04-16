@@ -96,11 +96,15 @@ userRouter.delete("/usuarios/:id", (req, res) => {
 
 userRouter.post("/login", async (req, res) => {
   const { email, password } = req.body;
+  // console.log({ email, password });
   const usuario = usuarios.find((u) => u.email === email);
+  // console.log(usuarios);
+  // console.log(usuario);
   if (!usuario) {
     return res.status(404).json({ mensaje: "Usuario no encontrado" });
   }
   const passwordMatch = await bcrypt.compare(password, usuario.password);
+  // console.log(passwordMatch);
   if (!passwordMatch) {
     return res.status(401).json({ mensaje: "Contraseña incorrecta" });
   }
@@ -126,6 +130,8 @@ userRouter.get("/perfil", verificarToken, (req, res) => {
 });
 
 userRouter.post("/register", async (req, res) => {
+  // console.log(req);
+  // console.log(req.body);
   const { nombre, email, password } = req.body;
   const usuarioExistente = usuarios.find((u) => u.email === email);
   if (usuarioExistente) {

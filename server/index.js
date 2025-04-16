@@ -34,6 +34,7 @@ app.get("/libros/:id", (req, res) => {
 });
 
 app.post("/estudiante", (req, res) => {
+  console.log(req.body);
   const { nombre, email } = req.body;
   res.json({ msg: "Dato recibido correctamente.", data: { nombre, email } });
 });
