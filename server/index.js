@@ -5,6 +5,8 @@ require("dotenv").config();
 
 // 2- Creamos la app
 const app = express();
+// 2.0- Importamos la base de datos
+require("./db");
 
 // 2.1- Activamos el middleware para leer JSON del req.body
 app.use(express.json());
