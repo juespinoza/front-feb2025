@@ -12,21 +12,21 @@ mongoose
     console.error(e);
   });
 
-const Usuario = require("./models/Usuario");
-async function testUsuarios() {
-  try {
-    const newUser = new Usuario({
-      nombre: "Juana",
-      email: "juanaaa@gmail.com",
-      password: "123456",
-    });
-    await newUser.save();
-    const usuarios = await Usuario.find(); // equivale a db.usuarios.find()
-    console.log("Usuarios en la base de datos:");
-    console.log(usuarios);
-  } catch (error) {
-    console.error("Error al buscar usuarios:", error);
-  }
-}
+// const Usuario = require("./models/Usuario");
+// async function testUsuarios() {
+//   try {
+//     const newUser = new Usuario({
+//       nombre: "Juana",
+//       email: "juanaaa@gmail.com",
+//       password: "123456",
+//     });
+//     await newUser.save();
+//     const usuarios = await Usuario.find(); // equivale a db.usuarios.find()
+//     console.log("Usuarios en la base de datos:");
+//     console.log(usuarios);
+//   } catch (error) {
+//     console.error("Error al buscar usuarios:", error);
+//   }
+// }
 
-testUsuarios();
+// testUsuarios();
