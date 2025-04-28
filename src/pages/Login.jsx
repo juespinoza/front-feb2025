@@ -7,12 +7,13 @@ function Login() {
   const login = async (e) => {
     e.preventDefault();
     const res = await fetch(`http://localhost:5001/api/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
 
-    const data = res.json();
+    const data = await res.json();
+    console.log(data);
     if (res.status === 200) {
       alert(data.mensaje);
     } else {

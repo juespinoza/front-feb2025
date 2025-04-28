@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const verificarToken = require("../middleware/auth");
 require("dotenv").config();
+const Usuario = require("../models/Usuario");
 
 const userRouter = express.Router();
 
@@ -18,52 +19,68 @@ let usuarios = [];
 userRouter.post("/register", async (req, res) => {
   // console.log(req);
   // console.log(req.body);
-  const { nombre, email, password } = req.body;
-  const usuarioExistente = usuarios.find((u) => u.email === email);
-  if (usuarioExistente) {
-    return res.status(400).json({ mensaje: "El usuario ya existe!" });
+  try {
+    const { nombre, email, password } = req.body;
+    const usuarioExistente = await Usuario.findOne({ email });
+    if (usuarioExistente) {
+      return res.status(400).json({ mensaje: "El usuario ya existe!" });
+    }
+    const encryptedPassword = await bcrypt.hash(password, 10);
+    const usuario = new Usuario({
+      nombre,
+      email,
+      password: encryptedPassword,
+    });
+    // console.log(usuario);
+    await usuario.save();
+    res
+      .status(201)
+      .json({ mensaje: "Usuario creado correctamente", data: usuario });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ mensaje: "Error al crear el usuario" });
   }
-  const encryptedPassword = await bcrypt.hash(password, 10);
-  const usuario = {
-    id: usuarios.length + 1, // esto es simulación
-    nombre,
-    email,
-    password: encryptedPassword,
-  };
-  usuarios.push(usuario);
-  res
-    .status(201)
-    .json({ mensaje: "Usuario creado correctamente", data: usuario });
 });
 
 userRouter.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-  // console.log({ email, password });
-  const usuario = usuarios.find((u) => u.email === email);
-  // console.log(usuarios);
-  // console.log(usuario);
-  if (!usuario) {
-    return res.status(404).json({ mensaje: "Usuario no encontrado" });
-  }
-  const passwordMatch = await bcrypt.compare(password, usuario.password);
-  // console.log(passwordMatch);
-  if (!passwordMatch) {
-    return res.status(401).json({ mensaje: "Contraseña incorrecta" });
-  }
-
-  const token = jwt.sign(
-    { id: usuario.id, email: usuario.email },
-    process.env.JWT_SECRET,
-    {
-      expiresIn: "1h",
+  try {
+    const { email, password } = req.body;
+    // console.log({ email, password });'
+    const query = Usuario.findOne({ email }).select([
+      "email",
+      "_id",
+      "password",
+    ]);
+    // console.log(await query.exec());
+    const usuario = await query.exec();
+    // console.log(usuarios);
+    console.log(usuario);
+    if (!usuario) {
+      return res.status(404).json({ mensaje: "Usuario no encontrado" });
     }
-  );
-  res.json({ mensaje: "Login existoso", token, data: usuario });
+    const passwordMatch = await bcrypt.compare(password, usuario.password);
+    // console.log(passwordMatch);
+    if (!passwordMatch) {
+      return res.status(401).json({ mensaje: "Contraseña incorrecta" });
+    }
+    console.log(usuario);
+    const token = jwt.sign(
+      { id: usuario._id, email: usuario.email },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
+    res.json({ mensaje: "Login existoso", token, data: usuario });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ mensaje: "No se pudo iniciar sesión" });
+  }
 });
 
-userRouter.get("/perfil", verificarToken, (req, res) => {
+userRouter.get("/perfil", verificarToken, async (req, res) => {
   const { email } = req.body;
-  const usuario = usuarios.find((u) => u.email === email);
+  const usuario = await Usuario.findOne({ email });
   if (!usuario) {
     return res.status(404).json({ mensaje: "Usuario no encontrado" });
   }
