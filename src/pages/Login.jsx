@@ -1,10 +1,15 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { login } from "../features/usuarios/usuariosSlice";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  let navigate = useNavigate();
 
-  const login = async (e) => {
+  const loginEvent = async (e) => {
     e.preventDefault();
     const res = await fetch(`http://localhost:5001/api/login`, {
       method: "POST",
@@ -15,14 +20,22 @@ function Login() {
     const data = await res.json();
     console.log(data);
     if (res.status === 200) {
-      alert(data.mensaje);
+      if (data.token) {
+        dispatch(login({ email: data.data.email, token: data.token }));
+        handleNavigate();
+      }
     } else {
       alert(data.mensaje);
     }
   };
+
+  const handleNavigate = () => {
+    navigate("/perfil");
+  };
+
   return (
     <div>
-      <form onSubmit={login}>
+      <form onSubmit={loginEvent}>
         <input
           type="text"
           placeholder="email"

@@ -8,10 +8,15 @@ import Transacciones from "./pages/Transacciones";
 import Estadisticas from "./pages/Estadisticas";
 import Registro from "./pages/Registro";
 import Login from "./pages/Login";
+import Perfil from "./pages/Perfil";
+import { useSelector } from "react-redux";
 
 function App({ name }) {
   const gato = "Lukus";
   const edad = 15;
+  const isAuthenticated = useSelector(
+    (state) => state.usuarios.isAuthenticated
+  );
 
   return (
     <>
@@ -29,6 +34,13 @@ function App({ name }) {
           <Link className="mx-2" to="/registro">
             Registro de usuario
           </Link>
+          {isAuthenticated ? (
+            <Link className="mx-2" to="/perfil">
+              Perfil
+            </Link>
+          ) : (
+            ""
+          )}
         </nav>
         <Routes>
           <Route path="/" element={<Inicio />} />
@@ -36,6 +48,7 @@ function App({ name }) {
           <Route path="/estadisticas" element={<Estadisticas />} />
           <Route path="/registro" element={<Registro />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/perfil" element={<Perfil />} />
         </Routes>
       </BrowserRouter>
     </>
