@@ -43,6 +43,8 @@ app.post("/estudiante", (req, res) => {
 // ------------------------
 
 app.use("/api", userRouter);
+const transaccionesRouter = require("./routes/transacciones");
+app.use("/api/transacciones", transaccionesRouter);
 app.use((req, res) => {
   res.status(404).send("Ruta no disponible.");
 });
