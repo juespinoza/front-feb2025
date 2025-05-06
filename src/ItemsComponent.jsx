@@ -71,7 +71,7 @@ function ItemsComponent({ items }) {
         </div>
       </div>
       <ul className="mt-4">
-        {transacciones.map((item) => (
+        {transactions.map((item) => (
           <li key={item.id} className="my-2 p-2 bg-gray-600 rounded-md">
             <div className="flex justify-between items-center">
               <span

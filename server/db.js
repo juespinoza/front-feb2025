@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 
 // conectamos con la base de datos
 mongoose
-  .connect(process.env.MONGO_URI_ATLAS)
+  .connect("mongodb+srv://transacciones:transaccionesLoc4l@fashion-project.7io5qpw.mongodb.net/?retryWrites=true&w=majority&appName=fashion-project")
   .then(() => {
     console.log("Conectado a la base de datos");
   })

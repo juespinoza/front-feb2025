@@ -8,7 +8,7 @@ const transaccionesRouter = express.Router();
 const Transaccion = require("../models/Transaccion");
 
 transaccionesRouter.get("/", async (req, res) => {
-  const transacciones = await Transaccion.find({ deletedAt: null });
+  const transacciones = await Transaccion.find();
   res.json({ mensaje: "Lista de transacciones", data: transacciones });
 });
 
