@@ -1,57 +1,84 @@
 import React, { useState, useEffect } from "react";
 import FormComponent from "./FormComponent";
-import { getTransactionsHook } from "./hooks/transactions";
-import { useSelector } from "react-redux";
+import {
+  createTransaccion,
+  deleteTransaccion,
+  fetchTransacciones,
+  // getTransactionsHook,
+  updateTransaccion,
+} from "./hooks/transactions";
+import { useDispatch, useSelector } from "react-redux";
+// import { getTransacciones } from "./features/transacciones/transaccionesSlice";
 
 function ItemsComponent({ items }) {
-  const transacciones = useSelector((state) => state.transacciones);
-  const { transactions, loading, error } = getTransactionsHook();
+  const lista = useSelector((state) => state.transacciones.lista);
+  const loading = useSelector((state) => state.transacciones.loading);
+  const error = useSelector((state) => state.transacciones.error);
 
-  console.log("transactions", transactions);
-  console.log("loading", loading);
-  console.log("error", error);
-  const [list, setList] = useState(items);
   const [editingItem, setEditingItem] = useState(null);
+  const [newItem, setNewItem] = useState({ monto: "", tipo: "ingreso" });
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    // console.log("Creando una promesa");
-    // const promise = new Promise((resolve, reject) => {
-    //   const exito = true;
-    //   setTimeout(() => {
-    //     if (exito) {
-    //       resolve("Promesa resuelta");
-    //     } else {
-    //       reject("Promesa rechazada");
-    //     }
-    //   }, 3000);
-    // });
-    // promise
-    //   .then((result) => console.log(result))
-    //   .catch((error) => console.error(error));
-    // try {
-    //   const { transactions, loading, error } = getTransactionsHook();
-    //   console.log("transactions", transactions);
-    //   console.log("loading", loading);
-    //   console.log("error", error);
-    // } catch (error) {
-    //   console.error(error);
-    // }
-  }, []);
+    dispatch(fetchTransacciones());
+  }, [dispatch]);
+  // const dispatch = useDispatch();
+  // const { transactions, loading, error } = getTransactionsHook();
+  // console.log("transactions...", transactions);
+  // console.log("loading", loading);
+  // console.log("error", error);
+  // const [list, setList] = useState(items);
+  // const [editingItem, setEditingItem] = useState(null);
+
+  // console.log("transacciones", transacciones);
+
+  // useEffect(() => {
+  // console.log("Creando una promesa");
+  // const promise = new Promise((resolve, reject) => {
+  //   const exito = true;
+  //   setTimeout(() => {
+  //     if (exito) {
+  //       resolve("Promesa resuelta");
+  //     } else {
+  //       reject("Promesa rechazada");
+  //     }
+  //   }, 3000);
+  // });
+  // promise
+  //   .then((result) => console.log(result))
+  //   .catch((error) => console.error(error));
+  // try {
+  //   const { transactions, loading, error } = getTransactionsHook();
+  //   console.log("transactions", transactions);
+  //   console.log("loading", loading);
+  //   console.log("error", error);
+  // } catch (error) {
+  //   console.error(error);
+  // }
+  //   dispatch(getTransacciones(transacciones.data));
+  // }, [dispatch]);
 
   const handleNew = (item) => {
-    setList([...list, { ...item, id: Date.now() }]);
+    // setList([...list, { ...item, id: Date.now() }]);
+    dispatch(createTransaccion(newItem));
+    setNewItem({ monto: "", tipo: "ingreso" });
   };
 
   const handleEdit = (updatedItem) => {
-    setList(
-      list.map((item) => (item._id === updatedItem._id ? updatedItem : item))
-    );
+    // setList(
+    //   list.map((item) => (item._id === updatedItem._id ? updatedItem : item))
+    // );
+    dispatch(updateTransaccion(editingItem));
     setEditingItem(null);
   };
 
   const removeItemById = (id) => {
-    setList(list.filter((item) => item._id !== id));
+    // setList(list.filter((item) => item._id !== id));
+    dispatch(deleteTransaccion(id));
   };
+
+  if (loading) return <p>Cargando transacciones...</p>;
+  if (error) return <p>Ocurrió un error: {error}</p>;
 
   return (
     <div className="p-4">
@@ -59,7 +86,7 @@ function ItemsComponent({ items }) {
         <h2 className="text-lg font-bold">Lista de Items</h2>
         <div className="bg-yellow-300 text-black p-2 rounded-md">
           <h3 className="text-3xl font-bold">
-            {list.reduce(
+            {lista.reduce(
               (saldo, item) =>
                 item.tipo === "ingreso"
                   ? saldo + Number(item.monto)
@@ -71,7 +98,7 @@ function ItemsComponent({ items }) {
         </div>
       </div>
       <ul className="mt-4">
-        {transactions.map((item) => (
+        {lista.map((item) => (
           <li key={item._id} className="my-2 p-2 bg-gray-600 rounded-md">
             <div className="flex justify-between items-center">
               <span
@@ -110,10 +137,11 @@ function ItemsComponent({ items }) {
       </ul>
       <h2 className="mt-4 text-lg font-bold">Agregar nuevo item</h2>
       <FormComponent
-        item={{ id: "", monto: "", tipo: "ingreso" }}
-        setItem={() => {}}
+        item={newItem}
+        setItem={setNewItem}
         hidden={false}
         submitFunc={handleNew}
+        cancelFunc={() => setNewItem({ monto: "", tipo: "ingreso" })}
       />
     </div>
   );

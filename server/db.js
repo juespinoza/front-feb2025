@@ -1,10 +1,11 @@
-require("dotenv").config();
+// require("dotenv").config();
+console.log("hola", process.env.MONGO_URI_ATLAS);
 
 const mongoose = require("mongoose");
 
 // conectamos con la base de datos
 mongoose
-  .connect("mongodb+srv://transacciones:transaccionesLoc4l@fashion-project.7io5qpw.mongodb.net/?retryWrites=true&w=majority&appName=fashion-project")
+  .connect( process.env.MONGO_URI_ATLAS)
   .then(() => {
     console.log("Conectado a la base de datos");
   })

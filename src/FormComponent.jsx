@@ -1,26 +1,27 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { agregarTransaccion } from "./features/transacciones/transaccionesSlice";
+import { useState } from "react";
+// import { useDispatch } from "react-redux";
+// import { agregarTransaccion } from "./features/transacciones/transaccionesSlice";
 
 function FormComponent({ item, setItem, hidden, submitFunc, cancelFunc }) {
   const [editingItem, setEditingItem] = useState(item);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEditingItem((prev) => ({ ...prev, [name]: value }));
+    setItem(editingItem);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // submitFunc(editingItem);
-    dispatch(agregarTransaccion(editingItem));
-    setEditingItem({ id: "", monto: 0, tipo: "ingreso" });
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   // submitFunc(editingItem);
+  //   dispatch(agregarTransaccion(editingItem));
+  //   setEditingItem({ id: "", monto: 0, tipo: "ingreso" });
+  // };
 
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={submitFunc}
       hidden={hidden}
       className="mt-2 p-2 border rounded-md"
     >
