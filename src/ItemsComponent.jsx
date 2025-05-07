@@ -44,13 +44,13 @@ function ItemsComponent({ items }) {
 
   const handleEdit = (updatedItem) => {
     setList(
-      list.map((item) => (item.id === updatedItem.id ? updatedItem : item))
+      list.map((item) => (item._id === updatedItem._id ? updatedItem : item))
     );
     setEditingItem(null);
   };
 
   const removeItemById = (id) => {
-    setList(list.filter((item) => item.id !== id));
+    setList(list.filter((item) => item._id !== id));
   };
 
   return (
@@ -72,7 +72,7 @@ function ItemsComponent({ items }) {
       </div>
       <ul className="mt-4">
         {transactions.map((item) => (
-          <li key={item.id} className="my-2 p-2 bg-gray-600 rounded-md">
+          <li key={item._id} className="my-2 p-2 bg-gray-600 rounded-md">
             <div className="flex justify-between items-center">
               <span
                 className={`font-bold ${
@@ -90,13 +90,13 @@ function ItemsComponent({ items }) {
                 </button>
                 <button
                   className="bg-red-500 text-white px-2 py-1 rounded"
-                  onClick={() => removeItemById(item.id)}
+                  onClick={() => removeItemById(item._id)}
                 >
                   Borrar
                 </button>
               </div>
             </div>
-            {editingItem && editingItem.id === item.id && (
+            {editingItem && editingItem._id === item._id && (
               <FormComponent
                 item={editingItem}
                 setItem={setEditingItem}
