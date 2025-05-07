@@ -4,13 +4,11 @@ import {
   createTransaccion,
   deleteTransaccion,
   fetchTransacciones,
-  // getTransactionsHook,
   updateTransaccion,
 } from "./hooks/transactions";
 import { useDispatch, useSelector } from "react-redux";
-// import { getTransacciones } from "./features/transacciones/transaccionesSlice";
 
-function ItemsComponent({ items }) {
+function ItemsComponent() {
   const lista = useSelector((state) => state.transacciones.lista);
   const loading = useSelector((state) => state.transacciones.loading);
   const error = useSelector((state) => state.transacciones.error);
@@ -22,58 +20,18 @@ function ItemsComponent({ items }) {
   useEffect(() => {
     dispatch(fetchTransacciones());
   }, [dispatch]);
-  // const dispatch = useDispatch();
-  // const { transactions, loading, error } = getTransactionsHook();
-  // console.log("transactions...", transactions);
-  // console.log("loading", loading);
-  // console.log("error", error);
-  // const [list, setList] = useState(items);
-  // const [editingItem, setEditingItem] = useState(null);
 
-  // console.log("transacciones", transacciones);
-
-  // useEffect(() => {
-  // console.log("Creando una promesa");
-  // const promise = new Promise((resolve, reject) => {
-  //   const exito = true;
-  //   setTimeout(() => {
-  //     if (exito) {
-  //       resolve("Promesa resuelta");
-  //     } else {
-  //       reject("Promesa rechazada");
-  //     }
-  //   }, 3000);
-  // });
-  // promise
-  //   .then((result) => console.log(result))
-  //   .catch((error) => console.error(error));
-  // try {
-  //   const { transactions, loading, error } = getTransactionsHook();
-  //   console.log("transactions", transactions);
-  //   console.log("loading", loading);
-  //   console.log("error", error);
-  // } catch (error) {
-  //   console.error(error);
-  // }
-  //   dispatch(getTransacciones(transacciones.data));
-  // }, [dispatch]);
-
-  const handleNew = (item) => {
-    // setList([...list, { ...item, id: Date.now() }]);
+  const handleNew = () => {
     dispatch(createTransaccion(newItem));
     setNewItem({ monto: "", tipo: "ingreso" });
   };
 
-  const handleEdit = (updatedItem) => {
-    // setList(
-    //   list.map((item) => (item._id === updatedItem._id ? updatedItem : item))
-    // );
+  const handleEdit = () => {
     dispatch(updateTransaccion(editingItem));
     setEditingItem(null);
   };
 
   const removeItemById = (id) => {
-    // setList(list.filter((item) => item._id !== id));
     dispatch(deleteTransaccion(id));
   };
 

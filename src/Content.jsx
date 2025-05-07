@@ -18,7 +18,7 @@ function Content() {
 
   return (
     <div className="content">
-      <ItemsComponent items={elementos} />
+      <ItemsComponent />
     </div>
   );
 }
