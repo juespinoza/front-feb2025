@@ -1,3 +1,4 @@
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import React, { useState, useEffect } from "react";
 
 // const API_URL = "https://jsonplaceholder.typicode.com";
@@ -44,3 +45,51 @@ export function getTransactionHook(id) {
 export function editTransactionHook(data) {
   // funcion para mandar los datos a una API
 }
+
+// obtenerTransacciones
+export const obtenerTransacciones = createAsyncThunk(
+  "transacciones/obtenerTransacciones",
+  async () => {
+    const response = await fetch(`${API_URL}/transacciones`);
+    return await response.json();
+  }
+);
+
+// crearTransaccion
+export const crearTransaccion = createAsyncThunk(
+  "transacciones/crearTransaccion",
+  async (transaccion) => {
+    const response = await fetch(`${API_URL}/transacciones`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(transaccion),
+    });
+  }
+);
+// actualizarTransaccion
+export const actualizarTransaccion = createAsyncThunk(
+  "transacciones/actualizarTransaccion",
+  async (id, transaccion) => {
+    const response = await fetch(`${API_URL}/transacciones/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(transaccion),
+    });
+    return await response.json();
+  }
+);
+
+// eliminarTransaccion
+export const eliminarTransaccion = createAsyncThunk(
+  "transacciones/eliminarTransaccion",
+  async (id) => {
+    const response = await fetch(`${API_URL}/transacciones/${id}`, {
+      method: "DELETE",
+    });
+    return await response.json();
+  }
+);
