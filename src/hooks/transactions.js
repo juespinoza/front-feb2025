@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import React, { useState, useEffect } from "react";
 
 // const API_URL = "https://jsonplaceholder.typicode.com";
-const API_URL = "http://localhost:5001/api";
+const API_URL = "http://localhost:3001/api";
 export function getTransactionsHook() {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);

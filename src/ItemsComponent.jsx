@@ -78,7 +78,7 @@ function ItemsComponent({ items }) {
                   item.tipo === "ingreso" ? "text-green-600" : "text-red-600"
                 }`}
               >
-                {`${item.tipo === "ingreso" ? "+" : "-"}${item.monto}`}
+                ⭐{`${item.tipo === "ingreso" ? "+" : "-"}${item.monto}`}
               </span>
               <div>
                 <button
