@@ -14,7 +14,7 @@ function ItemsComponent({ items }) {
   const loading = useSelector((state) => state.transacciones.loading);
   const error = useSelector((state) => state.transacciones.error);
 
-  console.log("transactions", lista);
+  //console.log("transactions", transactions);
   // console.log("loading", loading);
   // console.log("error", error);
   // const [list, setList] = useState(items);
