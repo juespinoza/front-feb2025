@@ -93,6 +93,12 @@ function ItemsComponent({ items }) {
                 >
                   Borrar
                 </button>
+                {/* Botón de la Tarea 1 */}
+                <button
+                  onClick={() => alert(`Detalles de: ${item.descripcion}`)}
+                >
+                  Ver detalles
+                </button>
               </div>
             </div>
             {editingItem && editingItem._id === item._id && (
