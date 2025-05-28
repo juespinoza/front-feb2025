@@ -14,7 +14,7 @@ function ItemsComponent({ items }) {
   const loading = useSelector((state) => state.transacciones.loading);
   const error = useSelector((state) => state.transacciones.error);
 
-  // console.log("transactions", transactions);
+  console.log("transactions", lista);
   // console.log("loading", loading);
   // console.log("error", error);
   // const [list, setList] = useState(items);
@@ -52,6 +52,11 @@ function ItemsComponent({ items }) {
     return <div className="text-center text-red-500">{error}</div>;
   }
 
+  const formatter =(date)=>{
+    const event = new Date(date);
+    return event.toLocaleDateString()
+  } 
+
   return (
     <div className="p-4">
       <div className="flex justify-between items-center">
@@ -79,6 +84,12 @@ function ItemsComponent({ items }) {
                 }`}
               >
                 ⭐{`${item.tipo === "ingreso" ? "+" : "-"}${item.monto}`}
+              </span>
+              <span>
+                {
+                  
+                `${item.createdAt ?  formatter(item.createdAt) : "Sin fecha"} `}
+                
               </span>
               <div>
                 <button
